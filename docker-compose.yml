@@ -1,0 +1,35 @@
+﻿version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - '8000:8000'
+    environment:
+      DATABASE_URL: postgresql+psycopg2://buguser:123321123@db:5432/bugtracker
+      REDIS_URL: redis://redis:6379/0
+      PRIVATE_KEY_PATH: /app/keys/private.pem
+      PUBLIC_KEY_PATH: /app/keys/public.pem
+      ACCESS_TOKEN_EXPIRE_MINUTES: '15'
+      REFRESH_TOKEN_EXPIRE_DAYS: '7'
+      ALGORITHM: RS256
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: buguser
+      POSTGRES_PASSWORD: 123321123
+      POSTGRES_DB: bugtracker
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    volumes:
+      - redisdata:/data
+
+volumes:
+  pgdata:
+  redisdata:

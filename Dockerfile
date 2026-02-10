@@ -1,0 +1,17 @@
+﻿FROM python:3.11-slim AS builder
+WORKDIR /app
+RUN apt-get update && apt-get install -y build-essential libpq-dev gcc curl
+COPY requirements.txt .
+RUN pip install --upgrade pip && pip wheel -r requirements.txt -w /wheels
+
+FROM python:3.11-slim
+RUN addgroup --system app && adduser --system --ingroup app app
+WORKDIR /app
+COPY --from=builder /wheels /wheels
+COPY requirements.txt .
+RUN pip install --no-index --find-links=/wheels -r requirements.txt
+COPY . .
+USER app
+EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://localhost:8000/health || exit 1
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

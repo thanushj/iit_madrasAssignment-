@@ -1,0 +1,24 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bugtracker-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bugtracker-api
+  template:
+    metadata:
+      labels:
+        app: bugtracker-api
+    spec:
+      containers:
+        - name: api
+          image: your-registry/bugtracker-api:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: postgresql+psycopg2://buguser:123321123@postgres:5432/bugtracker
+            - name: REDIS_URL
+              value: redis://redis:6379/0
