@@ -1,120 +1,107 @@
-﻿# iit_madrasAssignment - Bug Tracker API
-
-This patch adds containerization, RSA helper, CI skeleton, and k8s templates.
-
-Quick start (local):
-1. Generate RSA keys:
-   ./scripts/generate_rsa.sh
-2. Start services:
-   docker-compose up --build
-3. Create migrations and run:
-   export DATABASE_URL=postgresql+psycopg2://buguser:123321123@localhost:5432/bugtracker
-   alembic upgrade head
-4. Seed (optional):
-   python scripts/seed.py
-5. Visit: http://localhost:8000/docs
-
-
 # iit_madrasAssignment - Bug Tracker API
 
-Backend API for a Bug Reporting System built using FastAPI and PostgreSQL.
-This project includes core authentication, database models, JWT setup with RSA keys, and Docker-based containerization.
+A containerized Bug Tracker API built using FastAPI and PostgreSQL.
+This version includes authentication APIs and Docker setup for local development.
 
-------------------------------------------------------------
-Implemented Features
-------------------------------------------------------------
+---
 
-- User authentication (Register & Login)
-- Password hashing using bcrypt
-- UUID-based primary keys
-- Role-based user model (developer, manager, admin)
-- PostgreSQL integration
-- SQLAlchemy ORM
-- Alembic database migrations
-- RSA key-based JWT setup (RS256)
-- Docker containerization
-- Docker Compose setup (API + Postgres)
+## 🚀 Tech Stack
 
-------------------------------------------------------------
-Tech Stack
-------------------------------------------------------------
+- FastAPI
+- PostgreSQL
+- SQLAlchemy
+- Alembic (Database Migrations)
+- JWT Authentication
+- Docker & Docker Compose
 
-Backend: FastAPI  
-Database: PostgreSQL  
-ORM: SQLAlchemy  
-Migrations: Alembic  
-Authentication: JWT (RS256)  
-Containerization: Docker & Docker Compose  
+---
 
-------------------------------------------------------------
-Quick Start (Local Development)
-------------------------------------------------------------
+## 📦 Features Implemented
 
-1. Generate RSA keys:
-   ./scripts/generate_rsa.sh
+### 🔐 Authentication APIs
+- POST /api/auth/register  → Register new user
+- POST /api/auth/login     → Login user
+- POST /api/auth/refresh   → Refresh access token
+- POST /api/auth/logout    → Logout user
 
-2. Start services:
+### 🩺 Health Check
+- GET /health → Check API status
+
+---
+
+## 🐳 Quick Start (Docker Setup)
+
+1. Clone the repository:
+   git clone <your-repo-url>
+   cd iit_madrasAssignment
+
+2. Start services using Docker:
    docker-compose up --build
 
 3. Run database migrations:
-   export DATABASE_URL=postgresql+psycopg2://buguser:123321123@localhost:5432/bugtracker
-   alembic upgrade head
+   docker-compose exec app alembic upgrade head
 
-4. (Optional) Seed database:
-   python scripts/seed.py
-
-5. Visit API documentation:
+4. Visit Swagger Docs:
    http://localhost:8000/docs
 
+5. Health Check:
+   http://localhost:8000/health
 
-------------------------------------------------------------
-Available Endpoints
-------------------------------------------------------------
+---
 
-Authentication:
-POST   /api/auth/register
-POST   /api/auth/login
+## 🗂 Project Structure
 
-(Additional endpoints under development)
+iit_madrasAssignment/
+│
+├── app/
+│   ├── api/
+│   ├── core/
+│   ├── models/
+│   ├── schemas/
+│   └── main.py
+│
+├── alembic/
+├── docker-compose.yml
+├── Dockerfile
+└── README.md
 
+---
 
-------------------------------------------------------------
-Project Structure
-------------------------------------------------------------
+## 📖 API Documentation
 
-app/
-  api/
-  core/
-  models/
-  schemas/
-  db/
-  main.py
+Swagger UI:
+http://localhost:8000/docs
 
-Dockerfile
-docker-compose.yml
-alembic/
-scripts/
+OpenAPI Schema:
+http://localhost:8000/openapi.json
 
+---
 
-------------------------------------------------------------
-Docker Services
-------------------------------------------------------------
+## ⚙️ Environment Variables
 
-- API (FastAPI application)
-- PostgreSQL database
+DATABASE_URL=postgresql+psycopg2://buguser:password@db:5432/bugtracker
+SECRET_KEY=your_secret_key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
 
+---
 
-------------------------------------------------------------
-Run Tests (if configured)
-------------------------------------------------------------
+## 📌 Current Status
 
-pytest
+✔ Dockerized application  
+✔ PostgreSQL integration  
+✔ JWT Authentication  
+✔ Database migrations  
 
+🚧 Upcoming Features:
+- Bug CRUD APIs
+- Role-based authorization
+- Kubernetes deployment
+- CI/CD pipeline
 
-------------------------------------------------------------
-Author
-------------------------------------------------------------
+---
 
-Thanush
-AI4Bharat Backend Hiring Challenge
+## 👨‍💻 Author
+
+Thanush J  
 
