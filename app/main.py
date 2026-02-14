@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 from app.db.database import Base, engine
-import app.models   # VERY IMPORTANT
+import app.models  # VERY IMPORTANT
 
 from app.api.routes import auth
 
