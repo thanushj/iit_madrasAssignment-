@@ -15,24 +15,36 @@ Quick start (local):
 5. Visit: http://localhost:8000/docs
 
 
-
 # iit_madrasAssignment - Bug Tracker API
 
-Production-ready backend API for a Bug Reporting System built as part of the AI4Bharat Backend Hiring Challenge.
+Backend API for a Bug Reporting System built using FastAPI and PostgreSQL.
+This project includes core authentication, database models, JWT setup with RSA keys, and Docker-based containerization.
 
-This project includes:
-- RESTful API design (Users, Projects, Issues, Comments)
-- JWT authentication (RS256)
-- Role-based access control
-- Issue status state machine
-- Soft delete for projects
-- Token blacklisting & refresh rotation
-- Security hardening (rate limiting, headers, validation)
-- Docker & Docker Compose setup
-- Kubernetes templates
-- CI/CD pipeline (GitHub Actions)
-- Database migrations (Alembic)
-- Seed script
+------------------------------------------------------------
+Implemented Features
+------------------------------------------------------------
+
+- User authentication (Register & Login)
+- Password hashing using bcrypt
+- UUID-based primary keys
+- Role-based user model (developer, manager, admin)
+- PostgreSQL integration
+- SQLAlchemy ORM
+- Alembic database migrations
+- RSA key-based JWT setup (RS256)
+- Docker containerization
+- Docker Compose setup (API + Postgres)
+
+------------------------------------------------------------
+Tech Stack
+------------------------------------------------------------
+
+Backend: FastAPI  
+Database: PostgreSQL  
+ORM: SQLAlchemy  
+Migrations: Alembic  
+Authentication: JWT (RS256)  
+Containerization: Docker & Docker Compose  
 
 ------------------------------------------------------------
 Quick Start (Local Development)
@@ -41,7 +53,7 @@ Quick Start (Local Development)
 1. Generate RSA keys:
    ./scripts/generate_rsa.sh
 
-2. Start services (API + Postgres + Redis + Nginx):
+2. Start services:
    docker-compose up --build
 
 3. Run database migrations:
@@ -51,104 +63,52 @@ Quick Start (Local Development)
 4. (Optional) Seed database:
    python scripts/seed.py
 
-5. Access API documentation:
+5. Visit API documentation:
    http://localhost:8000/docs
 
 
 ------------------------------------------------------------
-API Overview
+Available Endpoints
 ------------------------------------------------------------
 
 Authentication:
 POST   /api/auth/register
 POST   /api/auth/login
-POST   /api/auth/refresh
-POST   /api/auth/logout
-GET    /api/auth/me
 
-Projects:
-GET    /api/projects
-POST   /api/projects
-GET    /api/projects/{id}
-PATCH  /api/projects/{id}
-DELETE /api/projects/{id}
-
-Issues:
-GET    /api/projects/{id}/issues
-POST   /api/projects/{id}/issues
-GET    /api/issues/{id}
-PATCH  /api/issues/{id}
-
-Comments:
-GET    /api/issues/{id}/comments
-POST   /api/issues/{id}/comments
-PATCH  /api/comments/{id}
+(Additional endpoints under development)
 
 
 ------------------------------------------------------------
-Security Features
+Project Structure
 ------------------------------------------------------------
 
-- bcrypt password hashing
-- JWT RS256 (asymmetric keys)
-- Access token expiry: 15 minutes
-- Refresh token expiry: 7 days
-- Token blacklist (logout support)
-- Login rate limiting
-- Global rate limiting
-- Security headers (HSTS, X-Frame-Options, etc.)
-- Strict CORS configuration
-- Input validation with Pydantic
-- ORM-based SQL injection protection
-- Markdown sanitization for XSS prevention
+app/
+  api/
+  core/
+  models/
+  schemas/
+  db/
+  main.py
 
-
-------------------------------------------------------------
-Issue State Machine
-------------------------------------------------------------
-
-open → in_progress → resolved → closed
-                         ↓
-                      reopened
-
-Critical issues cannot be closed without at least one comment.
+Dockerfile
+docker-compose.yml
+alembic/
+scripts/
 
 
 ------------------------------------------------------------
 Docker Services
 ------------------------------------------------------------
 
-- API (FastAPI)
-- PostgreSQL
-- Redis
-- Nginx (reverse proxy)
+- API (FastAPI application)
+- PostgreSQL database
 
 
 ------------------------------------------------------------
-Run Tests
+Run Tests (if configured)
 ------------------------------------------------------------
 
-pytest --cov=app
-
-
-------------------------------------------------------------
-Kubernetes Deployment
-------------------------------------------------------------
-
-kubectl apply -f k8s/
-
-
-------------------------------------------------------------
-CI/CD Pipeline
-------------------------------------------------------------
-
-GitHub Actions pipeline includes:
-- Linting
-- Type checking
-- Unit tests
-- Coverage validation (≥70%)
-- Dependency security scanning
-- Docker build
+pytest
 
 
 ------------------------------------------------------------
@@ -156,4 +116,5 @@ Author
 ------------------------------------------------------------
 
 Thanush
-AI4Bharat Backend Hiring Challenge Submission
+AI4Bharat Backend Hiring Challenge
+
